@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <base target="_top">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Declaração Complementar de Rebanho</title>
+
+  <style>
+    :root {
+      --verde: #1f5b3a;
+      --verde-escuro: #143e28;
+      --verde-claro: #e8f1eb;
+      --dourado: #d4a84f;
+      --fundo: #f2f6f3;
+      --texto: #17221b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 8% 5%, #dfece3 0, transparent 32%),
+        linear-gradient(180deg, #f7faf8 0%, var(--fundo) 100%);
+      min-height: 100vh;
+      font: 14px Arial, sans-serif;
+      color: var(--texto);
+    }
+
+    header {
+      background: linear-gradient(125deg, var(--verde-escuro), var(--verde));
+      color: #fff;
+      padding: 22px max(18px, calc((100% - 1120px) / 2));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 22px rgba(20,62,40,.18);
+    }
+
+    h1 {
+      margin: 3px 0;
+      font-size: 25px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .subtitulo {
+      opacity: 0.8;
+    }
+
+    .marca { display:flex; align-items:center; gap:14px; }
+    .marca-selo { width:48px; height:48px; border-radius:50%; display:grid; place-items:center; border:2px solid rgba(255,255,255,.72); background:rgba(255,255,255,.1); font-weight:bold; letter-spacing:1px; }
+
+    .conteudo {
+      max-width: 1120px;
+      margin: 20px auto;
+      padding: 0 14px;
+    }
+
+    .acoes {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .acoes div {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      border: 1px solid #c8d0ca;
+      background: #fff;
+      border-radius: 9px;
+      padding: 10px 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      filter: brightness(0.97);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .principal {
+      background: var(--verde);
+      color: #fff;
+    }
+
+    .cartao {
+      background: #fff;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 5px 25px #193b2315;
+      margin-bottom: 15px;
+    }
+
+    .grade {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.3fr;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: bold;
+      color: #566159;
+    }
+
+    input,
+    select {
+      width: 100%;
+      margin-top: 5px;
+      padding: 9px;
+      border: 1px solid #cbd3cd;
+      border-radius: 7px;
+      background: #fff;
+    }
+
+    .especies {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .especies section {
+      border: 1px solid #cbd3cd;
+      border-radius: 10px;
+      padding: 10px;
+      overflow: auto;
+    }
+
+    .especies section:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .especies h3 {
+      margin: 0 0 8px;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 11px;
+    }
+
+    th,
+    td {
+      border: 1px solid #bbc4bd;
+      padding: 5px;
+      text-align: center;
+    }
+
+    th {
+      background: #edf2ee;
+    }
+
+    td input {
+      border: 0;
+      margin: 0;
+      padding: 5px;
+      text-align: center;
+      min-width: 55px;
+    }
+
+    .consulta {
+      display: flex;
+      gap: 8px;
+    }
+
+    .resultados article {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .resultados a {
+      color: var(--verde);
+      font-weight: bold;
+    }
+
+    .status {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      max-width: 420px;
+      background: #17221b;
+      color: #fff;
+      padding: 13px 17px;
+      border-radius: 9px;
+      display: none;
+      z-index: 999;
+    }
+
+    .botoes-registro {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .botao-link,
+    .botao-cancelar,
+    .botao-excluir {
+      display: inline-block;
+      border-radius: 7px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .botao-link { color: #1f5b3a; border: 1px solid #1f5b3a; }
+    .botao-cancelar { color: #8a5a00; border: 1px solid #d99b28; background: #fff7e6; }
+    .botao-excluir { color: #fff; border: 1px solid #a51f1f; background: #b52a2a; }
+    .registro-cancelado { background: #fff0f0; opacity: .85; }
+    .selo-cancelado { display: inline-block; margin-top: 5px; padding: 3px 7px; border-radius: 5px; background: #b52a2a; color: #fff; font-size: 10px; font-weight: bold; }
+    .usuarios-grade { display:grid; grid-template-columns:1.4fr 1.8fr repeat(4,.7fr); gap:10px; align-items:end; }
+    .usuarios-lista table { margin-top:14px; font-size:12px; }
+    .usuarios-lista button { padding:6px 9px; margin:2px; }
+    .usuario-logado { font-size:11px; opacity:.85; text-align:right; }
+    .inicio { max-width:1000px; margin:42px auto; padding:0 18px 40px; }
+    .inicio-apresentacao { text-align:center; max-width:720px; margin:0 auto 28px; }
+    .inicio-apresentacao h2 { margin:0 0 8px; font-size:28px; color:var(--verde-escuro); }
+    .inicio-apresentacao p { margin:0; color:#607066; font-size:15px; line-height:1.55; }
+    .inicio-opcoes { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .inicio-opcao { position:relative; overflow:hidden; background:rgba(255,255,255,.94); border:1px solid #dce7df; border-radius:18px; padding:27px 24px 24px; box-shadow:0 10px 34px rgba(25,59,35,.09); text-align:left; transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease; }
+    .inicio-opcao::before { content:""; position:absolute; inset:0 0 auto; height:4px; background:linear-gradient(90deg,var(--verde),var(--dourado)); }
+    .inicio-opcao:hover { transform:translateY(-4px); border-color:#bed2c4; box-shadow:0 16px 38px rgba(25,59,35,.14); }
+    .inicio-opcao h2 { color:var(--verde-escuro); margin:14px 0 8px; font-size:20px; }
+    .inicio-opcao p { color:#647168; min-height:48px; line-height:1.45; }
+    .icone-opcao { width:44px; height:44px; border-radius:12px; display:grid; place-items:center; background:var(--verde-claro); color:var(--verde); font-size:13px; font-weight:bold; }
+    .inicio-opcao button { width:100%; margin-top:10px; }
+    .cadastro-publico { max-width:520px; margin:18px auto 0; display:none; }
+    .login-painel { max-width:520px; margin:0 auto 22px; }
+    .login-grade { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .login-acoes { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+    .primeiro-acesso { display:none; margin-top:14px; padding-top:14px; border-top:1px solid #e2e9e4; }
+    .sair { display:none; margin-top:7px; padding:6px 10px; font-size:11px; }
+    .voltar { margin-bottom:14px; }
+    .rodape-app { text-align:center; color:#758179; font-size:11px; margin-top:28px; }
+
+    @media (max-width: 700px) {
+      .grade,
+      .especies {
+        grid-template-columns: 1fr;
+      }
+
+      .especies section:first-child {
+        grid-column: auto;
+      }
+
+      .acoes {
+        flex-direction: column;
+      }
+
+      .acoes div {
+        flex-wrap: wrap;
+      }
+
+      header {
+        padding: 18px;
+      }
+
+      .consulta {
+        flex-direction: column;
+      }
+      .inicio-opcoes,.usuarios-grade { grid-template-columns:1fr; }
+    }
+    
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="marca">
+      <div class="marca-selo">DDA</div>
+      <div>
+        <small>DEFESA AGROPECUÁRIA</small>
+        <h1>Declaração de Rebanho</h1>
+        <div class="subtitulo">Município de Almirante Tamandaré do Sul</div>
+      </div>
+    </div>
+
+    <div><strong id="numTopo">—</strong><div id="usuarioTopo" class="usuario-logado"></div><button id="btnSair" class="sair" onclick="sairSistema()">Sair</button></div>
+  </header>
+
+  <section class="inicio" id="telaInicial">
+    <div class="inicio-apresentacao">
+      <h2>Bem-vindo ao sistema</h2>
+      <p>Entre com seu e-mail e senha para acessar somente as funções autorizadas.</p>
+    </div>
+    <div class="cartao login-painel" id="painelLogin">
+      <h2>Entrar no sistema</h2>
+      <div class="login-grade">
+        <label>E-mail<input id="loginEmail" type="email" autocomplete="username"></label>
+        <label>Senha<input id="loginSenha" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter') entrarSistema()"></label>
+      </div>
+      <div class="login-acoes"><button class="principal" onclick="entrarSistema()">Entrar</button><button onclick="alternarPrimeiroAcesso()">Primeiro acesso</button><button onclick="alternarRecuperacao()">Esqueci minha senha</button></div>
+      <div class="primeiro-acesso" id="primeiroAcesso">
+        <h3>Criar senha inicial</h3>
+        <div class="login-grade">
+          <label>E-mail<input id="primeiroEmail" type="email"></label>
+          <label>Código temporário<input id="primeiroCodigo" type="text" maxlength="6"></label>
+          <label>Nova senha<input id="primeiroSenha" type="password"></label>
+          <label>Confirmar senha<input id="primeiroConfirmar" type="password"></label>
+        </div>
+        <div class="login-acoes"><button onclick="enviarCodigoPrimeiroAcesso()">Enviar código por e-mail</button><button class="principal" onclick="definirSenhaInicial()">Criar minha senha</button></div>
+      </div>
+      <div class="primeiro-acesso" id="recuperarSenha">
+        <h3>Redefinir senha</h3>
+        <label>E-mail cadastrado<input id="recuperarEmail" type="email"></label>
+        <button style="margin-top:12px" onclick="solicitarCodigoSenha()">Enviar código por e-mail</button>
+        <div class="login-grade" style="margin-top:12px">
+          <label>Código recebido<input id="recuperarCodigo" type="text" maxlength="6"></label>
+          <label>Nova senha<input id="recuperarNovaSenha" type="password"></label>
+          <label>Confirmar nova senha<input id="recuperarConfirmarSenha" type="password"></label>
+        </div>
+        <button class="principal" style="margin-top:12px" onclick="redefinirSenha()">Salvar nova senha</button>
+      </div>
+    </div>
+    <div class="inicio-opcoes">
+      <div class="inicio-opcao"><div class="icone-opcao">01</div><h2>Declaração</h2><p>Preencher, emitir e consultar declarações de atualização de rebanho.</p><button class="principal" onclick="abrirDeclaracao()">Acessar declarações</button></div>
+      <div class="inicio-opcao"><div class="icone-opcao">02</div><h2>Cadastro</h2><p>Criar uma solicitação de acesso com e-mail e senha próprios.</p><button onclick="abrirCadastroPublico()">Solicitar cadastro</button></div>
+      <div class="inicio-opcao"><div class="icone-opcao">03</div><h2>Gerencial</h2><p>Gerenciar usuários, permissões e solicitações de acesso pendentes.</p><button onclick="abrirGerencial()">Abrir gerencial</button></div>
+    </div>
+    <div class="cartao cadastro-publico" id="cadastroPublico">
+      <h2>Solicitação de cadastro</h2>
+      <label>Nome completo<input id="nomeCadastro" type="text"></label>
+      <label>E-mail<input id="emailCadastro" type="email"></label>
+      <label>Senha (mínimo de 8 caracteres)<input id="senhaCadastro" type="password"></label>
+      <label>Confirmar senha<input id="confirmarCadastro" type="password"></label>
+      <button class="principal" onclick="enviarSolicitacaoCadastro()">Enviar solicitação</button>
+    </div>
+    <div class="rodape-app">Secretaria Municipal de Agricultura · Almirante Tamandaré do Sul/RS</div>
+  </section>
+
+  <main class="conteudo" id="telaSistema" style="display:none">
+    <button class="voltar" onclick="voltarInicio()">← Voltar ao início</button>
+    <div class="acoes areaDeclaracao">
+      <button type="button" onclick="novo()">
+        Nova declaração
+      </button>
+
+      <div>
+        <button type="button" onclick="salvarRascunho()">
+          Salvar rascunho
+        </button>
+
+        <button
+          type="button"
+          class="principal"
+          id="btnSalvar"
+          onclick="enviar()"
+        >
+          Salvar e gerar PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="cartao areaDeclaracao">
+      <div class="grade">
+        <label>
+          Nome do declarante
+          <input id="nome" type="text">
+        </label>
+
+        <label>
+  CPF/CNPJ
+  <input
+    id="cpf"
+    type="text"
+    maxlength="18"
+    oninput="mascararCpfCnpj(this)"
+    placeholder="000.000.000-00"
+  >
+</label>
+
+        <label>
+  Município da propriedade
+  <input
+    id="municipio"
+    type="text"
+    value="Almirante Tamandaré do Sul"
+    readonly
+  >
+</label>
+
+        <label>
+  Número da declaração
+  <input id="numero" type="number" readonly>
+</label>
+
+<label>
+  Ano
+  <input id="ano" type="number" readonly>
+</label>
+
+<label>
+  Data de emissão
+  <input id="data" type="date" readonly>
+</label>
+
+        <label>
+          Local
+          <input id="local" type="text">
+        </label>
+
+        <label>
+          Nome do grupo/produtor
+          <input id="produtor" type="text">
+        </label>
+
+        <label>
+          IF do servidor da IDA/posto
+          <input id="servidor" type="text">
+        </label>
+      </div>
+    </div>
+
+    <div class="cartao areaDeclaracao">
+      <div class="especies" id="species"></div>
+    </div>
+
+    <div class="cartao areaDeclaracao">
+      <h2>Consultar declarações</h2>
+
+      <div class="consulta">
+        <input
+          id="busca"
+          type="text"
+          placeholder="Nome, CPF/CNPJ ou número"
+          onkeydown="if(event.key === 'Enter') buscar()"
+        >
+
+        <button type="button" onclick="buscar()">
+          Buscar
+        </button>
+      </div>
+
+      <div class="resultados" id="results"></div>
+    </div>
+
+    <div class="cartao" id="painelUsuarios" style="display:none">
+      <h2>Cadastro de usuários</h2>
+      <input id="usuarioId" type="hidden">
+      <div class="usuarios-grade">
+        <label>Nome<input id="usuarioNome" type="text"></label>
+        <label>E-mail de acesso<input id="usuarioEmail" type="email"></label>
+        <label>Status<select id="usuarioStatus"><option>ATIVO</option><option>PENDENTE</option><option>INATIVO</option></select></label>
+        <label><input id="usuarioEmitir" type="checkbox" checked style="width:auto"> Emitir</label>
+        <label><input id="usuarioCancelar" type="checkbox" checked style="width:auto"> Cancelar</label>
+        <label><input id="usuarioExcluir" type="checkbox" checked style="width:auto"> Excluir</label>
+      </div>
+      <div style="margin-top:12px"><button onclick="limparUsuario()">Novo</button> <button class="principal" onclick="gravarUsuario()">Salvar usuário</button></div>
+      <div class="usuarios-lista" id="listaUsuarios"></div>
+    </div>
+  </main>
+
+  <div id="status" class="status"></div>
+
+  <script>
+    let usuarioSessao = null;
+    let tokenSessao = localStorage.getItem('sessaoRebanho') || '';
+    const definicoes = [
+      [
+        'bovinos',
+        'Bovinos',
+        'Bubalinos',
+        [
+          'Até 12 meses — macho',
+          'Até 12 meses — fêmea',
+          '13 a 24 meses — macho',
+          '13 a 24 meses — fêmea',
+          '25 a 36 meses — macho',
+          '25 a 36 meses — fêmea',
+          'Mais de 36 meses — macho',
+          'Mais de 36 meses — fêmea'
+        ],
+        2
+      ],
+      [
+        'suinos',
+        'Suínos',
+        'Javalis',
+        [
+          'Leitões — macho',
+          'Leitões — fêmea',
+          'Cachaços — macho',
+          'Matrizes — fêmea'
+        ],
+        2
+      ],
+      [
+        'ovinos',
+        'Ovinos',
+        '',
+        [
+          'Até 12 meses — macho',
+          'Até 12 meses — fêmea',
+          'Mais de 12 meses — macho',
+          'Mais de 12 meses — fêmea'
+        ],
+        2
+      ],
+      [
+        'equinos',
+        'Equinos',
+        'Asininos',
+        [
+          'Até 6 meses — macho',
+          'Até 6 meses — fêmea',
+          'Mais de 6 meses — macho',
+          'Mais de 6 meses — fêmea'
+        ],
+        2
+      ],
+      [
+        'caprinos',
+        'Caprinos',
+        '',
+        [
+          'Até 6 meses — macho',
+          'Até 6 meses — fêmea',
+          'Mais de 6 meses — macho',
+          'Mais de 6 meses — fêmea'
+        ],
+        2
+      ]
+    ];
+
+    const movimentos = [
+      'nascimentos',
+      'mortes',
+      'consumo',
+      'roubo',
+      'evolucao'
+    ];
+
+    function elemento(id) {
+      return document.getElementById(id);
+    }
+
+    function renderizarEspecies() {
+      elemento('species').innerHTML = definicoes.map(function(definicao) {
+        const id = definicao[0];
+        const nome = definicao[1];
+        const alternativa = definicao[2];
+        const colunas = definicao[3];
+        const limiteNascimento = definicao[4];
+
+        const opcoes = alternativa
+          ? '<option value="' + alternativa + '">' + alternativa + '</option>'
+          : '';
+
+        const cabecalho = colunas.map(function(coluna) {
+          return '<th>' + coluna + '</th>';
+        }).join('');
+
+        const linhas = movimentos.map(function(movimento) {
+          const celulas = colunas.map(function(_, indice) {
+            if (
+              movimento === 'nascimentos' &&
+              indice >= limiteNascimento
+            ) {
+              return '<td>×</td>';
+            }
+
+            return (
+              '<td>' +
+                '<input ' +
+                  'type="number" ' +
+                  'min="0" ' +
+                  'id="' + id + '_' + movimento + '_' + indice + '">' +
+              '</td>'
+            );
+          }).join('');
+
+          return (
+            '<tr>' +
+              '<th>' + movimento + '</th>' +
+              celulas +
+            '</tr>'
+          );
+        }).join('');
+
+        return (
+          '<section>' +
+            '<h3>' +
+              '<input ' +
+                'type="checkbox" ' +
+                'id="sel_' + id + '" ' +
+                'style="width:auto">' +
+              ' ' +
+              '<select ' +
+                'id="tipo_' + id + '" ' +
+                'style="width:auto;margin:0">' +
+                '<option value="' + nome + '">' + nome + '</option>' +
+                opcoes +
+              '</select>' +
+            '</h3>' +
+
+            '<label>' +
+              'Número do B.O.' +
+              '<input id="bo_' + id + '" type="text">' +
+            '</label>' +
+
+            '<table>' +
+              '<thead>' +
+                '<tr>' +
+                  '<th>Movimento</th>' +
+                  cabecalho +
+                '</tr>' +
+              '</thead>' +
+
+              '<tbody>' +
+                linhas +
+              '</tbody>' +
+            '</table>' +
+          '</section>'
+        );
+      }).join('');
+    }
+
+    function coletarDados() {
+      const especies = {};
+
+      definicoes.forEach(function(definicao) {
+        const id = definicao[0];
+        const colunas = definicao[3];
+
+        const especie = {
+          selecionada: elemento('sel_' + id).checked,
+          tipo: elemento('tipo_' + id).value,
+          bo: elemento('bo_' + id).value.trim()
+        };
+
+        movimentos.forEach(function(movimento) {
+          especie[movimento] = {};
+
+          colunas.forEach(function(_, indice) {
+            const campo = elemento(
+              id + '_' + movimento + '_' + indice
+            );
+
+            if (campo) {
+              especie[movimento][indice] =
+                Number(campo.value) || 0;
+            }
+          });
+        });
+
+        especies[id] = especie;
+      });
+
+      return {
+        numero: Number(elemento('numero').value) || null,
+        ano: Number(elemento('ano').value) || null,
+        data: elemento('data').value,
+        nome: elemento('nome').value.trim(),
+        cpf: elemento('cpf').value.trim(),
+        municipio: elemento('municipio').value.trim(),
+        local: elemento('local').value.trim(),
+        produtor: elemento('produtor').value.trim(),
+        servidor: elemento('servidor').value.trim(),
+        especies: especies
+      };
+    }
+
+    function validarDados(dados) {
+      if (!dados.nome) {
+        mostrarMensagem('Informe o nome do declarante.');
+        elemento('nome').focus();
+        return false;
+      }
+
+      if (!dados.cpf) {
+        mostrarMensagem('Informe o CPF ou CNPJ.');
+        elemento('cpf').focus();
+        return false;
+      }
+        if (!cpfCnpjValido(dados.cpf)) {
+        mostrarMensagem('Informe um CPF ou CNPJ válido.');
+        elemento('cpf').focus();
+        return false;
+      }
+      if (!dados.data) {
+        mostrarMensagem('Informe a data da declaração.');
+        elemento('data').focus();
+        return false;
+      }
+
+      const algumaSelecionada = Object.values(dados.especies)
+        .some(function(especie) {
+          return especie.selecionada;
+        });
+
+      if (!algumaSelecionada) {
+        mostrarMensagem('Selecione pelo menos uma espécie.');
+        return false;
+      }
+
+      return true;
+    }
+
+    function enviar() {
+      const dados = coletarDados();
+
+      if (!validarDados(dados)) {
+        return;
+      }
+
+      const botao = elemento('btnSalvar');
+      botao.disabled = true;
+      botao.textContent = 'Salvando...';
+
+      mostrarMensagem('Salvando declaração...');
+
+      google.script.run
+        .withSuccessHandler(function(resultado) {
+          botao.disabled = false;
+          botao.textContent = 'Salvar e gerar PDF';
+
+          localStorage.removeItem('rascunhoRebanho');
+
+          mostrarMensagem(
+            resultado.mensagem || 'Declaração salva com sucesso.'
+          );
+
+          if (resultado.numero) {
+            elemento('numero').value = Number(resultado.numero) + 1;
+          }
+
+          if (resultado.pdfUrl) {
+            window.open(resultado.pdfUrl, '_blank');
+          }
+
+          buscar();
+        })
+        .withFailureHandler(function(erro) {
+          botao.disabled = false;
+          botao.textContent = 'Salvar e gerar PDF';
+
+          mostrarMensagem(
+            erro && erro.message
+              ? erro.message
+              : 'Não foi possível salvar a declaração.'
+          );
+        })
+        .salvarDeclaracao(tokenSessao, dados);
+    }
+
+    function salvarRascunho() {
+      const dados = coletarDados();
+
+      localStorage.setItem(
+        'rascunhoRebanho',
+        JSON.stringify(dados)
+      );
+
+      mostrarMensagem('Rascunho salvo neste navegador.');
+    }
+
+    function preencherRascunho(dados) {
+      if (!dados) {
+        return;
+      }
+
+      elemento('numero').value = dados.numero || '';
+      elemento('ano').value = dados.ano || '';
+      elemento('data').value = dados.data || '';
+      elemento('nome').value = dados.nome || '';
+      elemento('cpf').value = dados.cpf || '';
+      elemento('municipio').value = dados.municipio || '';
+      elemento('local').value = dados.local || '';
+      elemento('produtor').value = dados.produtor || '';
+      elemento('servidor').value = dados.servidor || '';
+
+      definicoes.forEach(function(definicao) {
+        const id = definicao[0];
+        const colunas = definicao[3];
+        const especie = dados.especies
+          ? dados.especies[id]
+          : null;
+
+        if (!especie) {
+          return;
+        }
+
+        elemento('sel_' + id).checked =
+          Boolean(especie.selecionada);
+
+        if (especie.tipo) {
+          elemento('tipo_' + id).value = especie.tipo;
+        }
+
+        elemento('bo_' + id).value = especie.bo || '';
+
+        movimentos.forEach(function(movimento) {
+          colunas.forEach(function(_, indice) {
+            const campo = elemento(
+              id + '_' + movimento + '_' + indice
+            );
+
+            if (
+              campo &&
+              especie[movimento] &&
+              especie[movimento][indice] !== undefined
+            ) {
+              campo.value = especie[movimento][indice];
+            }
+          });
+        });
+      });
+    }
+
+    function novo() {
+      const confirmar = window.confirm(
+        'Deseja limpar o formulário e iniciar uma nova declaração?'
+      );
+
+      if (!confirmar) {
+        return;
+      }
+
+      localStorage.removeItem('rascunhoRebanho');
+      window.location.reload();
+    }
+
+    function buscar() {
+      const termo = elemento('busca').value.trim();
+      elemento('results').innerHTML = '<p>Buscando declarações...</p>';
+
+      google.script.run
+        .withSuccessHandler(function(registros) {
+          if (!registros || registros.length === 0) {
+            elemento('results').innerHTML = '<p>Nenhum registro encontrado.</p>';
+            return;
+          }
+
+          elemento('results').innerHTML = registros.map(function(registro) {
+            const cancelada = registro.status === 'CANCELADA';
+            const aviso = cancelada
+              ? '<div class="selo-cancelado">CANCELADA</div><br><small>Motivo: ' +
+                escaparHtml(registro.motivoCancelamento) + '<br>Cancelada em: ' +
+                escaparHtml(registro.dataCancelamento) + '</small>'
+              : '';
+            const pdf = registro.pdfUrl
+              ? '<a class="botao-link" href="' + escaparHtml(registro.pdfUrl) + '" target="_blank">PDF</a>'
+              : '';
+            const cancelar = !cancelada && registro.podeCancelar
+              ? '<button class="botao-cancelar" onclick="cancelarRegistro(\'' + registro.id + '\')">Cancelar</button>'
+              : '';
+            const excluir = registro.podeExcluir
+              ? '<button class="botao-excluir" onclick="excluirRegistro(\'' + registro.id + '\',\'' + registro.numero + '/' + registro.ano + '\')">Excluir</button>'
+              : '';
+
+            return '<article class="' + (cancelada ? 'registro-cancelado' : '') + '"><div><strong>' +
+              escaparHtml(registro.numero) + '/' + escaparHtml(registro.ano) + ' — ' + escaparHtml(registro.nome) +
+              '</strong><br><small>' + escaparHtml(registro.data || '') + ' · ' +
+              escaparHtml(registro.especies || 'Sem espécie informada') + ' · evolução: ' +
+              escaparHtml(registro.total || 0) + '</small>' + aviso + '</div><div class="botoes-registro">' +
+              pdf + cancelar + excluir + '</div></article>';
+          }).join('');
+        })
+        .withFailureHandler(function(erro) {
+          elemento('results').innerHTML = '<p>Não foi possível consultar as declarações.</p>';
+          mostrarMensagem(erro && erro.message ? erro.message : 'Erro ao realizar a consulta.');
+        })
+        .listarDeclaracoes(tokenSessao, termo);
+    }
+
+    function cancelarRegistro(id) {
+      const motivo = window.prompt('Informe o motivo do cancelamento:');
+      if (motivo === null) return;
+      if (!motivo.trim()) { mostrarMensagem('O motivo do cancelamento é obrigatório.'); return; }
+      if (!window.confirm('Confirma o cancelamento desta declaração?\n\nO número e o PDF serão preservados.')) return;
+      mostrarMensagem('Cancelando declaração...');
+      google.script.run
+        .withSuccessHandler(function(r) { mostrarMensagem(r.mensagem); buscar(); })
+        .withFailureHandler(function(e) { mostrarMensagem(e && e.message ? e.message : 'Não foi possível cancelar.'); })
+        .cancelarDeclaracao(tokenSessao, id, motivo.trim());
+    }
+
+    function excluirRegistro(id, numero) {
+      if (!window.confirm('ATENÇÃO!\n\nDeseja excluir definitivamente a declaração ' + numero + '?\n\nA linha será apagada e o PDF será enviado para a lixeira.')) return;
+      const texto = window.prompt('Para confirmar, digite EXCLUIR:');
+      if (String(texto || '').trim().toUpperCase() !== 'EXCLUIR') { mostrarMensagem('Exclusão cancelada.'); return; }
+      mostrarMensagem('Excluindo declaração...');
+      google.script.run
+        .withSuccessHandler(function(r) {
+          if (r.proximoNumero) {
+            elemento('numero').value = r.proximoNumero;
+            elemento('numTopo').textContent =
+              'Próxima: ' + r.proximoNumero + '/' + elemento('ano').value;
+          }
+          mostrarMensagem(r.mensagem);
+          buscar();
+        })
+        .withFailureHandler(function(e) { mostrarMensagem(e && e.message ? e.message : 'Não foi possível excluir.'); })
+        .excluirDeclaracao(tokenSessao, id);
+    }
+
+    function escaparHtml(valor) {
+      return String(valor === undefined ? '' : valor)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    function carregarUsuarios() {
+      google.script.run
+        .withSuccessHandler(function(usuarios) {
+          listaUsuarios.innerHTML = '<table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Permissões</th><th>Ações</th></tr>' +
+            usuarios.map(function(u) {
+              const permissoes = [u.emitir?'Emitir':'',u.cancelar?'Cancelar':'',u.excluir?'Excluir':''].filter(Boolean).join(', ');
+              return '<tr><td>'+escaparHtml(u.nome)+'</td><td>'+escaparHtml(u.email)+'</td><td>'+escaparHtml(u.status)+'</td><td>'+permissoes+'</td><td>'+
+                '<button onclick=\'editarUsuario('+JSON.stringify(u)+')\'>Editar</button>'+
+                (u.protegido ? '<strong> Protegido</strong>' : '<button class="botao-excluir" onclick="removerUsuario(\''+u.id+'\',\''+escaparHtml(u.nome)+'\')">Excluir</button>')+'</td></tr>';
+            }).join('') + '</table>';
+        })
+        .withFailureHandler(function(e){mostrarMensagem(e.message);})
+        .listarUsuarios(tokenSessao);
+    }
+
+    function limparUsuario() {
+      usuarioId.value=''; usuarioNome.value=''; usuarioEmail.value=''; usuarioStatus.value='ATIVO';
+      usuarioEmitir.checked=true; usuarioCancelar.checked=true; usuarioExcluir.checked=true;
+    }
+
+    function editarUsuario(u) {
+      usuarioId.value=u.id; usuarioNome.value=u.nome; usuarioEmail.value=u.email; usuarioStatus.value=u.status;
+      usuarioEmitir.checked=u.emitir; usuarioCancelar.checked=u.cancelar; usuarioExcluir.checked=u.excluir;
+      painelUsuarios.scrollIntoView({behavior:'smooth'});
+    }
+
+    function gravarUsuario() {
+      const dados={id:usuarioId.value,nome:usuarioNome.value,email:usuarioEmail.value,status:usuarioStatus.value,
+        emitir:usuarioEmitir.checked,cancelar:usuarioCancelar.checked,excluir:usuarioExcluir.checked};
+      google.script.run.withSuccessHandler(function(r){mostrarMensagem(r.mensagem);limparUsuario();carregarUsuarios();})
+        .withFailureHandler(function(e){mostrarMensagem(e.message);}).salvarUsuario(tokenSessao,dados);
+    }
+
+    function removerUsuario(id,nome) {
+      if(!confirm('Excluir o usuário '+nome+'?')) return;
+      const texto=prompt('Para confirmar, digite EXCLUIR:');
+      if(String(texto||'').trim().toUpperCase()!=='EXCLUIR'){mostrarMensagem('Exclusão cancelada.');return;}
+      google.script.run.withSuccessHandler(function(r){mostrarMensagem(r.mensagem);carregarUsuarios();})
+        .withFailureHandler(function(e){mostrarMensagem(e.message);}).excluirUsuario(tokenSessao,id,texto);
+    }
+
+    function mostrarMensagem(texto) {
+      const caixa = elemento('status');
+
+      caixa.textContent = texto;
+      caixa.style.display = 'block';
+
+      window.clearTimeout(window.tempoMensagem);
+
+      window.tempoMensagem = window.setTimeout(function() {
+        caixa.style.display = 'none';
+      }, 4000);
+    }
+function mascararCpfCnpj(campo) {
+  let valor = campo.value.replace(/\D/g, '');
+
+  if (valor.length <= 11) {
+    valor = valor
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  } else {
+    valor = valor.slice(0, 14)
+      .replace(/^(\d{2})(\d)/, '$1.$2')
+      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+      .replace(/\.(\d{3})(\d)/, '.$1/$2')
+      .replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+  }
+
+  campo.value = valor;
+}
+
+
+function cpfCnpjValido(valor) {
+  const numeros = String(valor || '').replace(/\D/g, '');
+
+  if (numeros.length === 11) {
+    return cpfValido(numeros);
+  }
+
+  if (numeros.length === 14) {
+    return cnpjValido(numeros);
+  }
+
+  return false;
+}
+
+
+function cpfValido(cpf) {
+  if (/^(\d)\1{10}$/.test(cpf)) {
+    return false;
+  }
+
+  let soma = 0;
+
+  for (let i = 0; i < 9; i++) {
+    soma += Number(cpf[i]) * (10 - i);
+  }
+
+  let digito = 11 - (soma % 11);
+  digito = digito >= 10 ? 0 : digito;
+
+  if (digito !== Number(cpf[9])) {
+    return false;
+  }
+
+  soma = 0;
+
+  for (let i = 0; i < 10; i++) {
+    soma += Number(cpf[i]) * (11 - i);
+  }
+
+  digito = 11 - (soma % 11);
+  digito = digito >= 10 ? 0 : digito;
+
+  return digito === Number(cpf[10]);
+}
+
+
+function cnpjValido(cnpj) {
+  if (/^(\d)\1{13}$/.test(cnpj)) {
+    return false;
+  }
+
+  function calcular(base, pesos) {
+    let soma = 0;
+
+    for (let i = 0; i < pesos.length; i++) {
+      soma += Number(base[i]) * pesos[i];
+    }
+
+    const resto = soma % 11;
+
+    return resto < 2 ? 0 : 11 - resto;
+  }
+
+  const primeiro = calcular(
+    cnpj.slice(0, 12),
+    [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+  );
+
+  const segundo = calcular(
+    cnpj.slice(0, 12) + primeiro,
+    [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+  );
+
+  return (
+    primeiro === Number(cnpj[12]) &&
+    segundo === Number(cnpj[13])
+  );
+}
+
+    function voltarInicio() {
+      elemento('telaSistema').style.display='none';
+      elemento('painelUsuarios').style.display='none';
+      elemento('telaInicial').style.display='block';
+    }
+
+    function abrirDeclaracao() {
+      if (!usuarioSessao || !usuarioSessao.ativo) { mostrarMensagem('Seu cadastro ainda não está ativo. Use a opção Cadastro.'); return; }
+      if (!usuarioSessao.emitir) { mostrarMensagem('Seu usuário não possui permissão para emitir declarações.'); return; }
+      elemento('telaInicial').style.display='none'; elemento('telaSistema').style.display='block';
+      document.querySelectorAll('.areaDeclaracao').forEach(function(x){x.style.display='';});
+      elemento('painelUsuarios').style.display='none'; buscar();
+    }
+
+    function abrirGerencial() {
+      if (!usuarioSessao || !usuarioSessao.excluir) { mostrarMensagem('Seu usuário não possui acesso ao Gerencial.'); return; }
+      elemento('telaInicial').style.display='none'; elemento('telaSistema').style.display='block';
+      document.querySelectorAll('.areaDeclaracao').forEach(function(x){x.style.display='none';});
+      elemento('painelUsuarios').style.display='block'; carregarUsuarios();
+    }
+
+    function abrirCadastroPublico() {
+      elemento('cadastroPublico').style.display='block';
+      elemento('cadastroPublico').scrollIntoView({behavior:'smooth'});
+    }
+
+    function enviarSolicitacaoCadastro() {
+      const senha=elemento('senhaCadastro').value;
+      if(senha!==elemento('confirmarCadastro').value){mostrarMensagem('As senhas não coincidem.');return;}
+      const dados={nome:elemento('nomeCadastro').value,email:elemento('emailCadastro').value,senha:senha};
+      google.script.run.withSuccessHandler(function(r){mostrarMensagem(r.mensagem); elemento('cadastroPublico').style.display='none';})
+        .withFailureHandler(function(e){mostrarMensagem(e.message);}).solicitarCadastro(dados);
+    }
+
+    function atualizarUsuarioTopo() {
+      elemento('usuarioTopo').textContent = usuarioSessao ? usuarioSessao.nome + ' · ' + usuarioSessao.email : 'Acesso não realizado';
+      elemento('btnSair').style.display = usuarioSessao ? 'inline-block' : 'none';
+      elemento('painelLogin').style.display = usuarioSessao ? 'none' : 'block';
+    }
+
+    function entrarSistema() {
+      const email=elemento('loginEmail').value.trim();
+      const senha=elemento('loginSenha').value;
+      mostrarMensagem('Entrando...');
+      google.script.run.withSuccessHandler(function(r){
+        tokenSessao=r.token; usuarioSessao=r.usuario; localStorage.setItem('sessaoRebanho',tokenSessao);
+        elemento('loginSenha').value=''; atualizarUsuarioTopo(); carregarConfiguracao(); mostrarMensagem('Acesso realizado com sucesso.');
+        if(usuarioSessao.emitir) abrirDeclaracao();
+      }).withFailureHandler(function(e){mostrarMensagem(e.message||'Não foi possível entrar.');}).login(email,senha);
+    }
+
+    function sairSistema() {
+      const token=tokenSessao;
+      tokenSessao=''; usuarioSessao=null; localStorage.removeItem('sessaoRebanho'); atualizarUsuarioTopo(); voltarInicio();
+      google.script.run.logout(token);
+      mostrarMensagem('Você saiu do sistema.');
+    }
+
+    function alternarPrimeiroAcesso() {
+      const caixa=elemento('primeiroAcesso');
+      caixa.style.display=caixa.style.display==='block'?'none':'block';
+      elemento('recuperarSenha').style.display='none';
+    }
+
+    function definirSenhaInicial() {
+      const senha=elemento('primeiroSenha').value;
+      if(senha!==elemento('primeiroConfirmar').value){mostrarMensagem('As senhas não coincidem.');return;}
+      google.script.run.withSuccessHandler(function(r){mostrarMensagem(r.mensagem);elemento('primeiroAcesso').style.display='none';elemento('loginEmail').value=elemento('primeiroEmail').value;})
+        .withFailureHandler(function(e){mostrarMensagem(e.message);}).criarSenhaInicial(elemento('primeiroEmail').value,elemento('primeiroCodigo').value,senha);
+    }
+
+    function enviarCodigoPrimeiroAcesso() {
+      const email=elemento('primeiroEmail').value.trim();
+      if(!email){mostrarMensagem('Informe seu e-mail.');return;}
+      mostrarMensagem('Solicitando código de primeiro acesso...');
+      google.script.run.withSuccessHandler(function(r){mostrarMensagem(r.mensagem);})
+        .withFailureHandler(function(e){mostrarMensagem(e.message||'Não foi possível enviar o código.');})
+        .solicitarCodigoPrimeiroAcesso(email);
+    }
+
+    function alternarRecuperacao() {
+      const caixa=elemento('recuperarSenha');
+      caixa.style.display=caixa.style.display==='block'?'none':'block';
+      elemento('primeiroAcesso').style.display='none';
+      if(!elemento('recuperarEmail').value) elemento('recuperarEmail').value=elemento('loginEmail').value;
+    }
+
+    function solicitarCodigoSenha() {
+      const email=elemento('recuperarEmail').value.trim();
+      if(!email){mostrarMensagem('Informe seu e-mail cadastrado.');return;}
+      mostrarMensagem('Solicitando código...');
+      google.script.run.withSuccessHandler(function(r){mostrarMensagem(r.mensagem);})
+        .withFailureHandler(function(e){mostrarMensagem(e.message||'Não foi possível solicitar o código.');})
+        .solicitarRedefinicaoSenha(email);
+    }
+
+    function redefinirSenha() {
+      const senha=elemento('recuperarNovaSenha').value;
+      if(senha!==elemento('recuperarConfirmarSenha').value){mostrarMensagem('As senhas não coincidem.');return;}
+      google.script.run.withSuccessHandler(function(r){
+        mostrarMensagem(r.mensagem); elemento('recuperarSenha').style.display='none';
+        elemento('loginEmail').value=elemento('recuperarEmail').value; elemento('loginSenha').focus();
+      }).withFailureHandler(function(e){mostrarMensagem(e.message||'Não foi possível redefinir a senha.');})
+        .confirmarRedefinicaoSenha(elemento('recuperarEmail').value,elemento('recuperarCodigo').value,senha);
+    }
+
+    function aplicarConfiguracao(configuracao) {
+      usuarioSessao=configuracao.usuario||null;
+      if(tokenSessao&&!usuarioSessao){tokenSessao='';localStorage.removeItem('sessaoRebanho');}
+      atualizarUsuarioTopo();
+      elemento('numero').value=configuracao.proximoNumero||'';
+      elemento('ano').value=configuracao.ano||new Date().getFullYear();
+      elemento('municipio').value=configuracao.municipio||'';
+      elemento('local').value=configuracao.municipio||'';
+      elemento('numTopo').textContent='Próxima: '+(configuracao.proximoNumero||'—')+'/'+(configuracao.ano||new Date().getFullYear());
+      elemento('data').value=configuracao.data||new Date().toISOString().slice(0,10);
+      const rascunho=localStorage.getItem('rascunhoRebanho');
+      if(rascunho){try{preencherRascunho(JSON.parse(rascunho));}catch(e){localStorage.removeItem('rascunhoRebanho');}}
+    }
+
+    function carregarConfiguracao() {
+      google.script.run.withSuccessHandler(aplicarConfiguracao).withFailureHandler(function(e){mostrarMensagem(e.message||'Não foi possível carregar o sistema.');}).dadosIniciais(tokenSessao);
+    }
+
+    function iniciar() {
+      renderizarEspecies();
+      carregarConfiguracao();
+    }
+
+    iniciar();
+  </script>
+</body>
+</html>
