@@ -1,6 +1,7 @@
 const CONFIG = {
   SPREADSHEET_ID: 'COLE_AQUI_O_ID_DA_PLANILHA',
   PDF_FOLDER_ID: 'COLE_AQUI_O_ID_DA_PASTA_DE_PDFS',
+  LOGO_URL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Bras%C3%A3o_do_Rio_Grande_do_Sul.svg/120px-Bras%C3%A3o_do_Rio_Grande_do_Sul.svg.png',
   MUNICIPIO_PADRAO: 'Almirante Tamandaré do Sul',
   FUSO_HORARIO: 'America/Sao_Paulo',
   ABA_DECLARACOES: 'Declarações',
@@ -440,6 +441,7 @@ function gerarPdf_(dados) {
   );
 
   modelo.d = dados;
+  modelo.logoDataUri = obterLogoDataUri_();
 
   const html = modelo
     .evaluate()
@@ -474,6 +476,30 @@ function gerarPdf_(dados) {
   );
 
   return pasta.createFile(pdf);
+}
+
+function obterLogoDataUri_() {
+  try {
+    const resposta = UrlFetchApp.fetch(CONFIG.LOGO_URL, {
+      muteHttpExceptions: true,
+      followRedirects: true
+    });
+
+    if (resposta.getResponseCode() !== 200) {
+      return '';
+    }
+
+    const blob = resposta.getBlob();
+    const tipo = blob.getContentType() || 'image/png';
+
+    return (
+      'data:' + tipo + ';base64,' +
+      Utilities.base64Encode(blob.getBytes())
+    );
+  } catch (erro) {
+    console.log('Não foi possível carregar o brasão: ' + erro.message);
+    return '';
+  }
 }
 function obterEmailUsuario_() {
   return String(
