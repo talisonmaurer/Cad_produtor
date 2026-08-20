@@ -78,7 +78,9 @@
   <div class="numero">Nº <?= d.numero ?>/<?= d.ano ?></div>
 
   <div class="cabecalho">
-    <img class="brasao" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Bras%C3%A3o_do_Rio_Grande_do_Sul.svg/120px-Bras%C3%A3o_do_Rio_Grande_do_Sul.svg.png">
+    <? if (logoDataUri) { ?>
+      <img class="brasao" src="<?!= logoDataUri ?>">
+    <? } ?>
     <div class="orgao">ESTADO DO RIO GRANDE DO SUL</div>
     <div class="orgao">SECRETARIA DA AGRICULTURA, PECUÁRIA E AGRONEGÓCIO</div>
     <div class="orgao">DEPARTAMENTO DE DEFESA AGROPECUÁRIA</div>
